@@ -25,22 +25,13 @@ r_list = zeros(size(k_list));
 t_list = zeros(size(k_list));
 
 for k_i=1:size(k_list,2)
-    fft_plot(Y(:,:,k_i), ['k=',num2str(k_list(k_i))],dt);
-    saveas(gcf,[num2str(k_i),'.png'])
+%    fft_plot(Y(:,:,k_i), ['k=',num2str(k_list(k_i))],dt);
+%    saveas(gcf,[num2str(k_i),'.png'])
     [w,f_r,f_t,~] = sig_fft(Y(:,:,k_i),dt);
     w = w(2:end);
-%     [~, i_r] = max(abs(f_r(2:end)));
-%     [~, i_t] = max(abs(f_t(2:end)));
-%     r_list(k_i) = w(i_r);
-%     t_list(k_i) = w(i_t);
-    r_list(k_i) = var(abs(f_r(2:end)));
-    t_list(k_i) = var(abs(f_t(2:end)));
     % make_video(['video_', num2str(k_i),'.avi'], Y(1:floor(1/dt*10),:,k_i), d, dt); 
 end
-save('var_k.mat', 'Y');
-
-figure(2);
-semilogx(k_list, r_list, k_list, t_list);
+% save('var_k.mat', 'Y');
 
 function make_video(title, Y,d, dt)
 
@@ -107,49 +98,6 @@ xlabel('Frequency(Hz)');
 ylabel('Amp');
 end
 
-function poincare_plot(Y, dt)
-n = floor(1/1.48/dt);
-subplot(1,2,1);
-plot(Y(1:end-n,1),Y(n+1:end,1));
-title('Poincare Plot of r');
-
-subplot(1,2,2);
-plot(Y(1:end-n,3),Y(n+1:end,3));
-title('Poincare Plot of r');
-end
-
-function time_plot(Y)
-plot(Y(:,1).*sin(Y(:,3)),-Y(:,1).*cos(Y(:,3)),'k');
-end
-
-function var_diff_plot(Y)
-subplot(2,2,1)
-plot(Y(:,1), Y(:,2));
-title('r vs dr');
-
-subplot(2,2,2)
-plot(Y(:,3), Y(:,4));
-title('theta vs d(theta)');
-
-subplot(2,2,3)
-plot(Y(:,1), Y(:,4));
-title('r vs d(theta)');
-
-subplot(2,2,4)
-plot(Y(:,3), Y(:,2));
-title('theta vs dr');
-end
-
-function final_plot(Y)
-figure(1);
-var_diff_plot(Y);
-figure(2);
-time_plot(Y);
-figure(3);
-poincare_plot(Y);
-figure(4);
-fft_plot(Y);
-end
 
 function X=odefun(t, x, Up, g,m, b, dt)
 % Up=@(s) k*(s-d).*heaviside(s-d);
