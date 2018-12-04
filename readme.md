@@ -1,4 +1,4 @@
-# Lagrangian of Pendalum
+﻿# Lagrangian of Pendalum
 
 In this system, we can write kinetic energy and potential energy like below
 
