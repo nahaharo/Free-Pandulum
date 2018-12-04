@@ -2,138 +2,29 @@
 
 In this system, we can write kinetic energy and potential energy like below
 
-$T = \frac{1}{2} m \dot{r}^2 + \frac{1}{2}m\left( r \dot{\theta}^2 \right)$
+![kinetic energy](https://latex.codecogs.com/gif.download?T%20%3D%20%5Cfrac%7B1%7D%7B2%7D%20m%20%5Cdot%7Br%7D%5E2%20+%20%5Cfrac%7B1%7D%7B2%7Dm%5Cleft%28%20r%20%5Cdot%7B%5Ctheta%7D%5E2%20%5Cright%29)
 
-$U = -mgr \cos \theta  - U_r (r) $
+![potential](https://latex.codecogs.com/gif.download?U%20%3D%20-mgr%20%5Ccos%20%5Ctheta%20-%20U_r%20%28r%29)
 
 
 
-In potential energy equation, $U_r(r)$ can be $\frac{1}{2} k (r-l)^2 H(r-l)$ or $\frac{1}{2} k (r-l)^2$ where $H(r)$ is unit step fucntion.
+In potential energy equation, ![U_r](https://latex.codecogs.com/gif.download?U_r) can be ![heavi](https://latex.codecogs.com/gif.download?%5Cfrac%7B1%7D%7B2%7D%20k%20%28r-l%29%5E2%20H%28r-l%29) or ![quad](https://latex.codecogs.com/gif.download?%5Cfrac%7B1%7D%7B2%7D%20k%20%28r-l%29%5E2)where ![unit step](https://latex.codecogs.com/gif.download?H(r)) is unit step fucntion.
 
 And now, Lagrangian can write lagrangian like this.
 
-$L = T-U = \frac{1}{2} m \dot{r}^2 + \frac{1}{2}m\left( r \dot{\theta}^2 \right) + mgr \cos\theta - U_r(r)$
+![lagrangian](https://latex.codecogs.com/gif.download?L%20%3D%20T-U%20%3D%20%5Cfrac%7B1%7D%7B2%7D%20m%20%5Cdot%7Br%7D%5E2%20+%20%5Cfrac%7B1%7D%7B2%7Dm%5Cleft%28%20r%20%5Cdot%7B%5Ctheta%7D%5E2%20%5Cright%29%20+%20mgr%20%5Ccos%5Ctheta%20-%20U_r%28r%29)
 
 By Euler equation,
 
-$\begin{cases}\frac{d}{dt} \left( \frac{\part L}{\part \dot{r}}\right) - \frac{\part L}{\part r} = -b \dot{r}\\\frac{d}{dt} \left( \frac{\part L}{\part \dot{\theta}}\right) - \frac{\part L}{\part \theta} = -b r \dot{\theta}\end{cases}$
+![Euler equation](https://latex.codecogs.com/gif.download?%5Cbegin%7Bcases%7D%5Cfrac%7Bd%7D%7Bdt%7D%20%5Cleft%28%20%5Cfrac%7B%5Cpartial%20L%7D%7B%5Cpartial%20%5Cdot%7Br%7D%7D%5Cright%29%20-%20%5Cfrac%7B%5Cpartial%20L%7D%7B%5Cpartial%20r%7D%20%3D%20-b%20%5Cdot%7Br%7D%5C%5C%5Cfrac%7Bd%7D%7Bdt%7D%20%5Cleft%28%20%5Cfrac%7B%5Cpartial%20L%7D%7B%5Cpartial%20%5Cdot%7B%5Ctheta%7D%7D%5Cright%29%20-%20%5Cfrac%7B%5Cpartial%20L%7D%7B%5Cpartial%20%5Ctheta%7D%20%3D%20-b%20r%20%5Cdot%7B%5Ctheta%7D%5Cend%7Bcases%7D)
 
-$\begin{cases}m \ddot{r}-mr\dot{\theta}^2 - m g \cos \theta +\frac{\part U_r(r)}{\part r}=-b\dot{r}\\m\left(2 r \dot{\theta}+r^2 \ddot{\theta}\right)+mgr \sin \theta = - b r \dot{\theta} \end{cases} $
+![Euler equation2](https://latex.codecogs.com/gif.download?%5Cbegin%7Bcases%7Dm%20%5Cddot%7Br%7D-mr%5Cdot%7B%5Ctheta%7D%5E2%20-%20m%20g%20%5Ccos%20%5Ctheta%20+%5Cfrac%7B%5Cpartial%20U_r%28r%29%7D%7B%5Cpartial%20r%7D%3D-b%5Cdot%7Br%7D%5C%5Cm%5Cleft%282%20r%20%5Cdot%7B%5Ctheta%7D+r%5E2%20%5Cddot%7B%5Ctheta%7D%5Cright%29+mgr%20%5Csin%20%5Ctheta%20%3D%20-%20b%20r%20%5Cdot%7B%5Ctheta%7D%20%5Cend%7Bcases%7D)
 
 Final equation is this.
 
-$\begin{cases}\dot{r} = \dot{r}\\\ddot{r} = r \dot{\theta}^2 +g\cos \theta - \frac{k}{m}\frac{\part U_r (r)}{\part r} - \frac{b}{m} \dot{r} \\ \dot{\theta} = \dot{\theta}\\ \ddot{\theta}=-2 \frac{\dot{r}}{r}\dot{\theta} - \frac{g}{r} \sin \theta - \frac{b}{m} \frac{\dot{\theta}}{r} \end{cases}$
-
-And code.
-
-```matlab
-clear;
-clc;
-close all;
-
-g=9.8;
-m=1;
-b=0;
-dt = 0.002;
-t = 1000;
-d=1;
-
-figure(1)
-k_list = logspace(0,3,16);
-
-Y = zeros(floor(t/dt)+1,4,4);
-parfor k_i=1:size(k_list,2)
-    k=k_list(k_i);
-%     Up=@(s) k*(s-d).*heaviside(s-d);
-    Up=@(s) k*(s-d);
-    [~,Y(:,:,k_i)]=ode45(@(t,x) odefun(t, x, Up, g,m, b, dt), 0:dt:t,[0.5,0,pi/2,0]);
-end
-
-figure(1)
-
-for k_i=1:size(k_list,2)
-   fft_plot(Y(:,:,k_i), ['k=',num2str(k_list(k_i))],dt);
-   saveas(gcf,[num2str(k_i),'.png'])
-    [w,f_r,f_t,~] = sig_fft(Y(:,:,k_i),dt);
-    w = w(2:end);
-    % make_video(['video_', num2str(k_i),'.avi'], Y(1:floor(1/dt*10),:,k_i), d, dt); 
-end
-save('var_k.mat', 'Y');
-
-function make_video(title, Y,d, dt)
-
-v = VideoWriter(title);
-open(v);
-figure('Position', [0,0,1280,640], 'visible', 'off')
-for i=1:size(Y,1)
-    if mod(i,floor(1/30/dt))==0
-        
-        subplot(1,2,1);
-        hold on;
-        
-        plot(Y(1:i,1).*sin(Y(1:i,3)),-Y(1:i,1).*cos(Y(1:i,3)),'k');
-        plot(-d:0.002:d,sqrt(d^2-(-d:0.002:d).^2),'b');
-        plot(-d:0.002:d,-sqrt(d^2-(-d:0.002:d).^2),'b');
-        xlim([-2,2])
-        ylim([-3,1])
-        grid on;
-        hold off;
-        
-        
-        subplot(1,2,2);
-        hold on;
-        plot(Y(1:i,1),Y(1:i,3),'k');
-        xlim([-3,8])
-        ylim([-2*pi, 2*pi])
-        grid on
-        hold off;
-        frame = getframe(gcf);
-        writeVideo(v,frame);
-    end
-end
-
-close(v);
-end
-
-function [w,f_r,f_t,L] = sig_fft(Y, dt)
-L = size(Y,1);
-w = linspace(0,1/dt,floor(L/2));
+![final equation](https://latex.codecogs.com/gif.download?%5Cbegin%7Bcases%7D%5Cdot%7Br%7D%20%3D%20%5Cdot%7Br%7D%5C%5C%5Cddot%7Br%7D%20%3D%20r%20%5Cdot%7B%5Ctheta%7D%5E2%20+g%5Ccos%20%5Ctheta%20-%20%5Cfrac%7Bk%7D%7Bm%7D%5Cfrac%7B%5Cpartial%20U_r%20%28r%29%7D%7B%5Cpartial%20r%7D%20-%20%5Cfrac%7Bb%7D%7Bm%7D%20%5Cdot%7Br%7D%20%5C%5C%20%5Cdot%7B%5Ctheta%7D%20%3D%20%5Cdot%7B%5Ctheta%7D%5C%5C%20%5Cddot%7B%5Ctheta%7D%3D-2%20%5Cfrac%7B%5Cdot%7Br%7D%7D%7Br%7D%5Cdot%7B%5Ctheta%7D%20-%20%5Cfrac%7Bg%7D%7Br%7D%20%5Csin%20%5Ctheta%20-%20%5Cfrac%7Bb%7D%7Bm%7D%20%5Cfrac%7B%5Cdot%7B%5Ctheta%7D%7D%7Br%7D%20%5Cend%7Bcases%7D)
 
 
-f_r = fft(Y(:,1))/L;
-f_r = f_r(1:floor(L/2));
-f_r(2:end-1) = 2*f_r(2:end-1);
-
-f_t = fft(Y(:,3))/L;
-f_t = f_t(1:floor(L/2));
-f_t(2:end-1) = 2*f_t(2:end-1);
-end
-
-function fft_plot(Y, title_fig, dt)
-[w,f_r,f_t,L] = sig_fft(Y, dt);
 
 
-subplot(2,1,1);
-plot(w(2:floor(L/20)),abs(f_r(2:floor(L/20))));
-title(title_fig);
-xlabel('Frequency(Hz)');
-ylabel('Amp');
-
-subplot(2,1,2);
-plot(w(1:floor(L/100)),abs(f_t(1:floor(L/100))));
-xlabel('Frequency(Hz)');
-ylabel('Amp');
-end
-
-
-function X=odefun(t, x, Up, g,m, b, dt)
-% Up=@(s) k*(s-d).*heaviside(s-d);
-X=zeros(4,1);
-X(1)=x(2);
-X(2)=x(1)*(x(4)^2)+g*cos(x(3))-Up(x(1))/m-b/m*x(2);
-X(3)=x(4);
-X(4)=-g*sin(x(3))/x(1) -2*x(2)*x(4)/x(1)-b/m*x(4)/x(1);
-
-end
-```
 

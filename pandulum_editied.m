@@ -15,9 +15,9 @@ k_list = logspace(0,3,16);
 Y = zeros(floor(t/dt)+1,4,4);
 parfor k_i=1:size(k_list,2)
     k=k_list(k_i);
-%     Up=@(s) k*(s-d).*heaviside(s-d);
-    Up=@(s) k*(s-d);
-    [~,Y(:,:,k_i)]=ode45(@(t,x) odefun(t, x, Up, g,m, b, dt), 0:dt:t,[0.5,0,pi/2,0]);
+    Up=@(s) k*(s-d).*heaviside(s-d);
+%     Up=@(s) k*(s-d);
+    [~,Y(:,:,k_i)]=ode45(@(t,x) odefun(t, x, Up, g,m, b, dt), 0:dt:t,[1,0,pi/2,0]);
 end
 
 figure(1)
