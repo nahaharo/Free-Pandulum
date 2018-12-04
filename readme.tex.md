@@ -18,7 +18,7 @@ By Euler equation,
 
 $\begin{cases}\frac{d}{dt} \left( \frac{\part L}{\part \dot{r}}\right) - \frac{\part L}{\part r} = -b \dot{r}\\\frac{d}{dt} \left( \frac{\part L}{\part \dot{\theta}}\right) - \frac{\part L}{\part \theta} = -b r \dot{\theta}\end{cases}$
 
-$\begin{cases}m \ddot{r}-mr\dot{\theta}^2 - m g \cos \theta +\frac{\part U_r(r)}{\part r}=-b\dot{r}\\m\left(2 r \dot{\theta}+r^2 \ddot{\theta}\right)+mgr \sin \theta = - b r \dot{\theta} \end{cases} ​$
+$\begin{cases}m \ddot{r}-mr\dot{\theta}^2 - m g \cos \theta +\frac{\part U_r(r)}{\part r}=-b\dot{r}\\m\left(2 r \dot{\theta}+r^2 \ddot{\theta}\right)+mgr \sin \theta = - b r \dot{\theta} \end{cases} $
 
 Final equation is this.
 
