@@ -3,3 +3,5 @@ Square/
 *.mat
 free_pendulum.m
 plot_mat.m
+*.png
+*.zip

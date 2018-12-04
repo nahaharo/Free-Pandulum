@@ -10,28 +10,26 @@ t = 1000;
 d=1;
 
 figure(1)
-k_list = logspace(0,4,16);
+k_list = logspace(0,3,16);
 
 Y = zeros(floor(t/dt)+1,4,4);
 parfor k_i=1:size(k_list,2)
     k=k_list(k_i);
-    Up=@(s) k*(s-d).*heaviside(s-d);
-%     Up=@(s) k*(s-d);
+%     Up=@(s) k*(s-d).*heaviside(s-d);
+    Up=@(s) k*(s-d);
     [~,Y(:,:,k_i)]=ode45(@(t,x) odefun(t, x, Up, g,m, b, dt), 0:dt:t,[0.5,0,pi/2,0]);
 end
 
 figure(1)
-r_list = zeros(size(k_list));
-t_list = zeros(size(k_list));
 
 for k_i=1:size(k_list,2)
-%    fft_plot(Y(:,:,k_i), ['k=',num2str(k_list(k_i))],dt);
-%    saveas(gcf,[num2str(k_i),'.png'])
+   fft_plot(Y(:,:,k_i), ['k=',num2str(k_list(k_i))],dt);
+   saveas(gcf,[num2str(k_i),'.png'])
     [w,f_r,f_t,~] = sig_fft(Y(:,:,k_i),dt);
     w = w(2:end);
     % make_video(['video_', num2str(k_i),'.avi'], Y(1:floor(1/dt*10),:,k_i), d, dt); 
 end
-% save('var_k.mat', 'Y');
+save('var_k.mat', 'Y');
 
 function make_video(title, Y,d, dt)
 
@@ -77,7 +75,7 @@ f_r = fft(Y(:,1))/L;
 f_r = f_r(1:floor(L/2));
 f_r(2:end-1) = 2*f_r(2:end-1);
 
-f_t = fft(Y(:,2))/L;
+f_t = fft(Y(:,3))/L;
 f_t = f_t(1:floor(L/2));
 f_t(2:end-1) = 2*f_t(2:end-1);
 end
@@ -93,7 +91,7 @@ xlabel('Frequency(Hz)');
 ylabel('Amp');
 
 subplot(2,1,2);
-plot(w(1:floor(L/20)),abs(f_t(1:floor(L/20))));
+plot(w(1:floor(L/100)),abs(f_t(1:floor(L/100))));
 xlabel('Frequency(Hz)');
 ylabel('Amp');
 end
